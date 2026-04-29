@@ -122,20 +122,19 @@ export default function ProblemSolution() {
       </motion.div>
 
       <div className="steps-container-luxury">
-        <div className="progress-line"></div>
         {steps.map((step, idx) => {
           const Icon = step.icon;
           return (
             <motion.div 
               key={idx} 
-              className="step-row-luxury glassmorphism"
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              className="step-card-luxury glassmorphism"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: idx * 0.15, type: "spring", stiffness: 100 }}
             >
               <div className="step-icon-wrapper-luxury">
-                <Icon size={24} className="text-navy" />
+                <Icon size={28} className="text-navy" />
               </div>
               <div className="step-text-luxury">
                 <h4>{step.title}</h4>

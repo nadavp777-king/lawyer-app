@@ -17,10 +17,10 @@
 .ps-container.luxury-minimalist {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 32px;
 }
 
 .playfair-title {
@@ -208,35 +208,35 @@
 
 /* Progress Line & Steps */
 .steps-container-luxury {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 32px;
-  padding: 20px 0;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
+  padding: 20px 0;
 }
 
-.progress-line {
-  position: absolute;
-  top: 40px;
-  bottom: 40px;
-  left: 62px; 
-  width: 2px;
-  background: linear-gradient(to bottom, var(--gold) 0%, var(--navy) 100%);
-  opacity: 0.3;
-  z-index: 0;
-}
-
-.step-row-luxury {
+.step-card-luxury {
   position: relative;
   z-index: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  padding: 24px 32px;
+  text-align: center;
+  gap: 20px;
+  padding: 32px;
   border-radius: 16px;
   background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card-luxury:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(4, 21, 47, 0.08);
 }
 
 .step-icon-wrapper-luxury {
@@ -355,7 +355,7 @@
   margin-bottom: 80px;
 }
 
-/* Mobile Adjustments */
+/* Responsive Adjustments */
 .mobile-only-header {
   display: none;
   font-family: 'Playfair Display', serif;
@@ -368,7 +368,37 @@
   display: none;
 }
 
+/* Tablet (Medium Screens) */
+@media (max-width: 1024px) {
+  .ps-container.luxury-minimalist {
+    padding: 32px 24px;
+    gap: 24px;
+  }
+  
+  .comparison-row {
+    gap: 20px;
+  }
+  
+  .luxury-card {
+    padding: 24px;
+  }
+  
+  .step-card-luxury {
+    padding: 24px;
+  }
+  
+  .steps-container-luxury {
+    gap: 20px;
+  }
+}
+
+/* Mobile (Phones) */
 @media (max-width: 768px) {
+  .ps-container.luxury-minimalist {
+    padding: 24px 20px; /* Edge-to-edge with 20px side padding */
+    gap: 16px;
+  }
+
   .hidden-mobile {
     display: none;
   }
@@ -399,13 +429,14 @@
     margin-top: 16px;
   }
 
-  .progress-line {
-    left: 45px;
+  .steps-container-luxury {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
-  .step-row-luxury {
+  .step-card-luxury {
     padding: 20px;
-    gap: 20px;
+    gap: 16px;
   }
 
   .step-icon-wrapper-luxury {
@@ -414,7 +445,11 @@
   }
 
   .step-text-luxury h4 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+  }
+  
+  .step-text-luxury p {
+    font-size: 1rem;
   }
   
   .luxury-cta-section {
@@ -423,5 +458,18 @@
   
   .luxury-cta-section h3 {
     font-size: 1.8rem;
+  }
+  
+  .golden-gradient-btn {
+    width: 100%;
+    padding: 16px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .luxury-card {
+    padding: 20px;
   }
 }
