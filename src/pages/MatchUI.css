@@ -427,23 +427,22 @@
   background: #0A192F;
   border: 1px solid #D4AF37;
   border-radius: 24px;
-  padding: 24px 20px;
+  padding: 48px 32px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  text-align: left;
+  text-align: center;
   box-shadow: 0 15px 40px rgba(10, 25, 47, 0.2);
   margin: 0 auto 32px auto;
-  max-width: 700px;
+  max-width: 650px;
   width: 100%;
   position: relative;
   overflow: visible;
   height: auto;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  gap: 24px;
+  gap: 28px;
 }
 
 .concierge-card:hover {
@@ -471,48 +470,51 @@
   pointer-events: none;
 }
 
-.concierge-icon, .concierge-content {
+.concierge-icon, .concierge-text, .concierge-btn {
   position: relative;
   z-index: 1;
 }
 
 .concierge-icon {
-  flex-shrink: 0;
-  margin-top: 4px;
+  margin: 0;
 }
 
-.concierge-content {
+.concierge-text {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
 }
 
 .concierge-text h3 {
-  font-size: 1.6rem;
-  margin: 0 0 8px 0;
+  font-size: 1.8rem;
+  margin: 0;
   font-weight: 700;
+  text-align: center;
 }
 
 .concierge-text p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 1.05rem;
-  line-height: 1.5;
+  font-size: 1.1rem;
+  line-height: 1.6;
   margin: 0;
+  text-align: center;
+  max-width: 480px;
 }
 
 .concierge-btn {
   background: transparent;
   color: #D4AF37;
   border: 1px solid #D4AF37;
-  padding: 12px 32px;
+  padding: 16px 48px;
   border-radius: 50px;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 260px;
 }
 
 .text-gold {
@@ -525,23 +527,16 @@
 
 @media (max-width: 768px) {
   .concierge-card {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 24px 20px;
-    max-width: 380px;
+    padding: 40px 24px;
+    gap: 24px;
   }
   
-  .concierge-icon {
-    margin-top: 0;
-  }
-
-  .concierge-content {
-    align-items: center;
+  .concierge-text h3 {
+    font-size: 1.5rem;
   }
   
   .concierge-btn {
     width: 100%;
+    min-width: unset;
   }
 }
