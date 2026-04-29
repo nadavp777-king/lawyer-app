@@ -25,9 +25,10 @@ const FEMALE_FIRST_NAMES = ["Eleanor", "Ronit", "Tali", "Dana", "Shira", "Maya",
 
 import './MatchUI.css';
 
+const LOCATIONS = ["Tel Aviv", "Jerusalem", "Haifa", "Herzliya", "Rishon LeZion", "Ashdod"];
+const PRACTICES = ["Corporate & Tech", "Real Estate", "Family Law", "Criminal Defense", "Immigration", "Personal Injury"];
+
 const generateMockLawyers = () => {
-  const PRACTICES = ["Corporate & Tech", "Real Estate", "Family Law", "Criminal Defense", "Immigration", "Personal Injury"];
-  const LOCATIONS = ["Tel Aviv", "Jerusalem", "Haifa", "Herzliya", "Rishon LeZion", "Ashdod"];
   const FIRST_NAMES = ["Eleanor", "Jonathan", "Ronit", "Adam", "Tali", "David", "Ariel", "Dana", "Eliyahu", "Shira", "Maya", "Yaron", "Rachel", "Avi", "Michal", "Michael", "Igor", "Tomer", "Galit", "Nadav", "Sarah", "John", "Elana", "Omer", "Liat", "Yossi", "Keren", "Erez", "Shlomi", "Anat"];
   const LAST_NAMES = ["Vance", "Adler", "Gilad", "Levine", "Shahar", "Harel", "Barakat", "Katz", "Cohen", "Ben-Tov", "Levi", "Weinberg", "Peretz", "Or", "Chen", "Dorenko", "Ganon", "Mor", "Amir", "Levin", "Atias", "Shapira", "Yigal", "Kadosh", "Ben-David", "Peled", "Golan", "Biton", "Gabay"];
   
@@ -110,191 +111,224 @@ export default function MatchUI() {
     }
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 20 } }
+  };
+
   return (
     <div className="match-container animate-fade-in-up">
       <div className="match-header">
         <h2 className="section-title">Find Your Match</h2>
-        <p className="text-slate mb-4">Scroll to explore. Filter to find the perfect fit.</p>
+        <p className="text-slate mb-4 inter-font">Scroll to explore. Filter to find the perfect fit.</p>
 
-        {/* Interactive Filters */}
-        <div className="filter-pill-container">
-          <select
-            className="filter-select"
-            value={filterLocation}
-            onChange={(e) => setFilterLocation(e.target.value)}
-          >
-            <option value="All">Area: All</option>
-            <option value="Tel Aviv">Tel Aviv</option>
-            <option value="Jerusalem">Jerusalem</option>
-            <option value="Haifa">Haifa</option>
-            <option value="Herzliya">Herzliya</option>
-            <option value="Rishon LeZion">Rishon LeZion</option>
-            <option value="Ashdod">Ashdod</option>
-          </select>
-
-          <select
-            className="filter-select"
-            value={filterPractice}
-            onChange={(e) => setFilterPractice(e.target.value)}
-          >
-            <option value="All">Practice: Any</option>
-            <option value="Corporate & Tech">Corp & Tech</option>
-            <option value="Real Estate">Real Estate</option>
-            <option value="Family Law">Family Law</option>
-            <option value="Criminal Defense">Criminal</option>
-            <option value="Immigration">Immigration</option>
-            <option value="Personal Injury">Personal Injury</option>
-          </select>
+        {/* Interactive Pill Filters */}
+        <div className="filter-section">
+          <div className="filter-row">
+            <span className="filter-label">Area</span>
+            <div className="filter-pill-scroll">
+              <button 
+                className={`filter-pill ${filterLocation === 'All' ? 'active' : ''}`}
+                onClick={() => setFilterLocation('All')}
+              >
+                All
+              </button>
+              {LOCATIONS.map(loc => (
+                <button 
+                  key={loc}
+                  className={`filter-pill ${filterLocation === loc ? 'active' : ''}`}
+                  onClick={() => setFilterLocation(loc)}
+                >
+                  {loc}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="filter-row">
+            <span className="filter-label">Practice</span>
+            <div className="filter-pill-scroll">
+              <button 
+                className={`filter-pill ${filterPractice === 'All' ? 'active' : ''}`}
+                onClick={() => setFilterPractice('All')}
+              >
+                Any
+              </button>
+              {PRACTICES.map(prac => (
+                <button 
+                  key={prac}
+                  className={`filter-pill ${filterPractice === prac ? 'active' : ''}`}
+                  onClick={() => setFilterPractice(prac)}
+                >
+                  {prac}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="card-feed-container">
-        {filteredLawyers.length > 0 ? (
-          filteredLawyers.map(card => (
-            <div key={card.id} className="lawyer-card-wrapper">
-              <motion.div
-                className="lawyer-card"
-                initial={{ scale: 0.95, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="card-image-wrapper">
-                <img src={card.image} alt={card.name} className="card-image" draggable="false" />
-                <div className="card-overlay">
-                  <div className="card-rating">
-                    <Star size={16} fill="var(--gold)" color="var(--gold)" />
-                    <span>{card.rating} ({card.reviews})</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-info">
-                <h3>{card.name}</h3>
-                <div className="info-row">
-                  <Briefcase size={16} className="text-slate" />
-                  <span className="text-slate font-medium">{card.practice}</span>
-                </div>
-                <div className="info-row">
-                  <MapPin size={16} className="text-slate" />
-                  <span className="text-slate">{card.location}</span>
-                  <span className="cost-badge ml-auto">{card.cost}</span>
-                </div>
-                <p className="card-bio">{card.bio}</p>
-
-                {/* Fully working action buttons */}
-                <div className="card-actions">
-                  <button className="card-action-btn secondary-action" onClick={() => handleActionClick('Profile', card)}>
-                    <User size={18} /> Profile
-                  </button>
-                  <button className="card-action-btn primary-action" onClick={() => handleActionClick('Message', card)}>
-                    Hello 👋
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            
-            <AnimatePresence mode="wait">
-              {chatModal?.id === card.id && (
-                <motion.div
-                  key="chat"
-                  className="chat-inline"
-                  initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                  animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
-                  exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                >
-                  <div className="chat-header">
-                    <img src={chatModal.image} alt={chatModal.name} className="chat-avatar" />
-                    <div>
-                      <h4 style={{ margin: 0 }}>{chatModal.name}</h4>
-                      <span className="text-slate" style={{ fontSize: '0.8rem' }}>Usually replies instantly</span>
+      <AnimatePresence mode="wait">
+        <motion.div 
+          className="card-feed-container"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          key={`${filterLocation}-${filterPractice}`}
+        >
+          {filteredLawyers.length > 0 ? (
+            filteredLawyers.map(card => (
+              <motion.div key={card.id} className="lawyer-card-wrapper" variants={itemVariants}>
+                <div className="lawyer-card glassmorphic-card">
+                  <div className="card-image-wrapper">
+                    <img src={card.image} alt={card.name} className="card-image grayscale-hover" draggable="false" />
+                    <div className="card-overlay">
+                      <div className="card-rating">
+                        <Star size={16} fill="var(--gold)" color="#D4AF37" />
+                        <span>{card.rating} ({card.reviews})</span>
+                      </div>
                     </div>
-                    <button className="close-chat-btn ml-auto" onClick={() => setChatModal(null)}>&times;</button>
                   </div>
-                  <div className="chat-body text-slate">
-                    This is a secure connection. Your privacy is guaranteed.
-                  </div>
-                  <div className="chat-input-area">
-                    <input type="text" id={`chat-input-${chatModal.id}`} placeholder="Start typing your message..." className="chat-input" />
-                    <button className="btn-gold" onClick={() => {
-                        const inputEl = document.getElementById(`chat-input-${chatModal.id}`);
-                        const messageText = inputEl && inputEl.value.trim() ? inputEl.value : "Hi, I would like to consult with you regarding my case.";
-                        
-                        const existingStr = localStorage.getItem('contactedLawyers');
-                        let current = existingStr ? JSON.parse(existingStr) : [];
-                        let lawyerEntry = current.find(l => l.id === chatModal.id);
-                        
-                        if (!lawyerEntry) {
-                          lawyerEntry = {
-                             id: chatModal.id,
-                             name: chatModal.name,
-                             practice: chatModal.practice,
-                             image: chatModal.image,
-                             timestamp: new Date().toISOString(),
-                             messages: []
-                          };
-                          current.push(lawyerEntry);
-                        }
-                        
-                        lawyerEntry.messages.push({
-                            text: messageText,
-                            timestamp: new Date().toISOString(),
-                            sender: 'user'
-                        });
 
-                        localStorage.setItem('contactedLawyers', JSON.stringify(current));
-                        setChatModal(null);
-                    }}>Send</button>
+                  <div className="card-info">
+                    <h3>{card.name}</h3>
+                    <div className="info-row tracked-out">
+                      <Briefcase size={16} className="text-navy" />
+                      <span className="font-medium">{card.practice}</span>
+                    </div>
+                    <div className="info-row tracked-out">
+                      <MapPin size={16} className="text-navy" />
+                      <span>{card.location}</span>
+                      <span className="cost-badge ml-auto">{card.cost}</span>
+                    </div>
+                    <p className="card-bio">{card.bio}</p>
+
+                    <div className="card-actions">
+                      <button className="card-action-btn secondary-action" onClick={() => handleActionClick('Profile', card)}>
+                        <User size={18} /> Profile
+                      </button>
+                      <button className="card-action-btn primary-action" onClick={() => handleActionClick('Message', card)}>
+                        Hello 👋
+                      </button>
+                    </div>
                   </div>
-                </motion.div>
-              )}
-              {profileModal?.id === card.id && (
-                <motion.div
-                  key="profile"
-                  className="chat-inline"
-                  initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                  animate={{ height: 'auto', opacity: 1, marginTop: 12 }}
-                  exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                >
-                  <div className="chat-header" style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: '8px' }}>
-                    <h3 style={{ margin: 0 }}>Full Profile: {profileModal.name}</h3>
-                    <button className="close-chat-btn ml-auto" onClick={() => setProfileModal(null)}>&times;</button>
-                  </div>
-                  <p className="modal-bio">{profileModal.bio} They have handled over 200+ cases in their career with an outstanding success record.</p>
-                  <ul className="modal-details text-slate">
-                    <li><Check size={16} className="text-gold" /> Bar Admission: Israel 2012</li>
-                    <li><Check size={16} className="text-gold" /> Languages: Hebrew, English</li>
-                    <li><Check size={16} className="text-gold" /> Response Time: Usually under 2 hours</li>
-                  </ul>
-                  <button className="btn-primary mt-8" style={{ width: '100%' }} onClick={() => setProfileModal(null)}>Close Profile</button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+
+                  {/* Inline Modals with Slide-Up */}
+                  <AnimatePresence>
+                    {chatModal?.id === card.id && (
+                      <motion.div
+                        className="overlay-modal"
+                        initial={{ y: '100%' }}
+                        animate={{ y: 0 }}
+                        exit={{ y: '100%' }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                      >
+                        <div className="chat-header">
+                          <img src={chatModal.image} alt={chatModal.name} className="chat-avatar" />
+                          <div>
+                            <h4 style={{ margin: 0, fontFamily: 'Playfair Display', fontSize: '1.2rem', color: '#0A192F' }}>{chatModal.name}</h4>
+                            <span style={{ fontSize: '0.8rem', opacity: 0.7, fontFamily: 'Inter', color: '#0A192F' }}>Usually replies instantly</span>
+                          </div>
+                          <button className="close-chat-btn ml-auto" onClick={() => setChatModal(null)}>&times;</button>
+                        </div>
+                        <div className="chat-body inter-font">
+                          This is a secure connection. Your privacy is guaranteed.
+                        </div>
+                        <div className="chat-input-area">
+                          <input type="text" id={`chat-input-${chatModal.id}`} placeholder="Start typing your message..." className="chat-input" />
+                          <button className="btn-gold" onClick={() => {
+                              const inputEl = document.getElementById(`chat-input-${chatModal.id}`);
+                              const messageText = inputEl && inputEl.value.trim() ? inputEl.value : "Hi, I would like to consult with you regarding my case.";
+                              
+                              const existingStr = localStorage.getItem('contactedLawyers');
+                              let current = existingStr ? JSON.parse(existingStr) : [];
+                              let lawyerEntry = current.find(l => l.id === chatModal.id);
+                              
+                              if (!lawyerEntry) {
+                                lawyerEntry = {
+                                   id: chatModal.id,
+                                   name: chatModal.name,
+                                   practice: chatModal.practice,
+                                   image: chatModal.image,
+                                   timestamp: new Date().toISOString(),
+                                   messages: []
+                                };
+                                current.push(lawyerEntry);
+                              }
+                              
+                              lawyerEntry.messages.push({
+                                  text: messageText,
+                                  timestamp: new Date().toISOString(),
+                                  sender: 'user'
+                              });
+
+                              localStorage.setItem('contactedLawyers', JSON.stringify(current));
+                              setChatModal(null);
+                          }}>Send</button>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {profileModal?.id === card.id && (
+                      <motion.div
+                        className="overlay-modal"
+                        initial={{ y: '100%' }}
+                        animate={{ y: 0 }}
+                        exit={{ y: '100%' }}
+                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                      >
+                        <div className="chat-header" style={{ borderBottom: 'none', paddingBottom: 0, marginBottom: '8px' }}>
+                          <h3 style={{ margin: 0, fontFamily: 'Playfair Display', color: '#0A192F' }}>Full Profile</h3>
+                          <button className="close-chat-btn ml-auto" onClick={() => setProfileModal(null)}>&times;</button>
+                        </div>
+                        <div className="modal-scroll-content">
+                          <p className="modal-bio inter-font">{profileModal.bio} They have handled over 200+ cases in their career with an outstanding success record.</p>
+                          <ul className="modal-details inter-font tracked-out">
+                            <li><Check size={16} className="text-gold" /> Bar Admission: Israel 2012</li>
+                            <li><Check size={16} className="text-gold" /> Languages: Hebrew, English</li>
+                            <li><Check size={16} className="text-gold" /> Response Time: Usually under 2 hours</li>
+                          </ul>
+                        </div>
+                        <button className="btn-gold mt-auto" style={{ width: '100%', marginTop: 'auto' }} onClick={() => setProfileModal(null)}>Close Profile</button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            ))
+          ) : (
+            <div className="no-cards-left">
+              <div className="empty-avatar mb-4">🔍</div>
+              <h3 className="playfair-font">No lawyers found</h3>
+              <p className="inter-font">Try adjusting your search filters.</p>
             </div>
-          ))
-        ) : (
-          <div className="no-cards-left">
-            <div className="empty-avatar mb-4">🔍</div>
-            <h3>No lawyers found</h3>
-            <p>Try adjusting your search filters.</p>
-          </div>
-        )}
-      </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
 
       <motion.div 
-        className="help-section mt-4 mb-8"
+        className="concierge-card mt-4 mb-8"
         initial={{ y: 20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true }}
       >
-        <div className="help-icon-wrapper">
-          <HelpCircle size={36} color="#ffe482" />
+        <div className="concierge-icon">
+          <HelpCircle size={36} color="#D4AF37" />
         </div>
-        <div className="help-text">
-          <h3>Still didn't find the right lawyer?</h3>
-          <p style={{ fontSize: '0.95rem', marginTop: '8px' }}>Our matching experts are standing by. Let us help you navigate your legal needs and find the perfect attorney.</p>
+        <div className="concierge-text">
+          <h3 className="playfair-font text-gold">Private Concierge</h3>
+          <p className="inter-font">Our matching experts are standing by. Let us help you navigate your legal needs and find the perfect attorney.</p>
         </div>
-        <button className="help-btn mt-2" onClick={() => navigate('/support')}>
+        <button className="concierge-btn inter-font" onClick={() => navigate('/support')}>
           Get Guided Support
         </button>
       </motion.div>
