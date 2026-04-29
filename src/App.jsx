@@ -8,6 +8,7 @@ import MatchUI from './pages/MatchUI';
 import Support from './pages/Support';
 import MyProgress from './pages/MyProgress';
 import Onboarding from './pages/Onboarding';
+import Navbar from './components/Navbar';
 import './App.css';
 
 // Wrapper for page transitions
@@ -44,6 +45,7 @@ function App() {
   return (
     <Router>
       <div className="app-layout">
+        <Navbar />
         <AnimatePresence mode="wait">
           <Routes>
             <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
