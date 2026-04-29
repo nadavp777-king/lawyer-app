@@ -427,19 +427,20 @@
   background: #0A192F;
   border: 1px solid #D4AF37;
   border-radius: 24px;
-  padding: 40px 32px;
+  padding: 32px 40px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  flex-direction: row;
+  align-items: flex-start;
+  text-align: left;
   box-shadow: 0 15px 40px rgba(10, 25, 47, 0.2);
   margin: 0 auto 32px auto;
-  max-width: 380px;
+  max-width: 700px;
   width: 100%;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 24px;
 }
 
 .concierge-card:hover {
@@ -460,35 +461,43 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 250px;
-  height: 250px;
+  width: 350px;
+  height: 350px;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
   z-index: 0;
 }
 
-.concierge-icon, .concierge-text, .concierge-btn {
+.concierge-icon, .concierge-content {
   position: relative;
   z-index: 1;
 }
 
 .concierge-icon {
-  margin-bottom: 16px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.concierge-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .concierge-text h3 {
-  font-size: 1.8rem;
-  margin: 0 0 12px 0;
+  font-size: 1.6rem;
+  margin: 0 0 8px 0;
+  font-weight: 700;
 }
 
 .concierge-text p {
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.05rem;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
 }
 
 .concierge-btn {
-  margin-top: 24px;
   background: transparent;
   color: #D4AF37;
   border: 1px solid #D4AF37;
@@ -497,8 +506,7 @@
   font-weight: 600;
   font-size: 1.05rem;
   transition: all 0.3s ease;
-  width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
@@ -509,4 +517,26 @@
 
 .mt-auto {
   margin-top: auto;
+}
+
+@media (max-width: 768px) {
+  .concierge-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 32px 24px;
+    max-width: 380px;
+  }
+  
+  .concierge-icon {
+    margin-top: 0;
+  }
+
+  .concierge-content {
+    align-items: center;
+  }
+  
+  .concierge-btn {
+    width: 100%;
+  }
 }

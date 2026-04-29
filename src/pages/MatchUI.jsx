@@ -325,14 +325,16 @@ export default function MatchUI() {
         tabIndex={0}
       >
         <div className="concierge-icon">
-          <HelpCircle size={36} color="#D4AF37" />
+          <HelpCircle size={44} color="#D4AF37" />
         </div>
-        <div className="concierge-text">
-          <h3 className="playfair-font text-gold">Still didn't find the right lawyer?</h3>
-          <p className="inter-font">Our matching experts are standing by. Let us help you navigate your legal needs and find the perfect attorney.</p>
-        </div>
-        <div className="concierge-btn inter-font">
-          Get Guided Support
+        <div className="concierge-content">
+          <div className="concierge-text">
+            <h3 className="inter-font text-gold">Need expert guidance?</h3>
+            <p className="inter-font">If you’re not sure which legal category fits your case, or you're having trouble using the app, our legal matchmakers are here to help.</p>
+          </div>
+          <div className="concierge-btn inter-font">
+            Chat with Support
+          </div>
         </div>
       </motion.div>
     </div>
