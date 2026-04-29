@@ -89,7 +89,7 @@ export default function Navbar() {
         <AnimatePresence>
           {dropdownOpen && (
             <motion.div 
-              className="profile-dropdown-menu glass-panel"
+              className="profile-dropdown-menu"
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -118,7 +118,7 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
           >
             <motion.div 
-              className="edit-modal-content glass-panel"
+              className="edit-modal-content"
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
