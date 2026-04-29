@@ -1,0 +1,218 @@
+.ps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ps-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.mt-8 {
+  margin-top: 32px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.status-card {
+  background: var(--white);
+  padding: 24px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.error-card {
+  background: linear-gradient(to right, #fffcfc, #ffffff);
+  border-left: 4px solid var(--error);
+}
+
+.success-card {
+  background: linear-gradient(to right, #fbfdf9, #ffffff);
+  border-left: 4px solid var(--navy-blue);
+}
+
+.card-icon-wrapper {
+  padding: 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.error-icon-bg {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.success-icon-bg {
+  background: rgba(4, 21, 47, 0.05);
+}
+
+.card-content h4 {
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  color: var(--navy-blue);
+  margin: 0 0 6px 0;
+  font-weight: 700;
+}
+
+.card-content p {
+  color: var(--slate);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.success-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(4, 21, 47, 0.1);
+}
+
+.error-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(220, 53, 69, 0.15);
+}
+
+/* Middle CTA Section */
+.middle-cta-section {
+  text-align: center;
+  background: #fde047; /* Bright yellow box */
+  padding: 40px 24px;
+  border-radius: var(--border-radius-lg);
+  margin: 32px 0;
+  box-shadow: 0 8px 30px rgba(253, 224, 71, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.bottom-cta {
+  margin-bottom: 80px; /* More space at bottom */
+}
+
+.middle-cta-section h3 {
+  margin: 0;
+  color: #111827; /* Dark black/gray text */
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.middle-cta-section p {
+  color: #374151; /* Dark gray */
+  margin: 0;
+  max-width: 320px;
+}
+
+.boxy-yellow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #fef08a; /* Brighter yellow inside */
+  color: #111827; /* Black text */
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: 3px solid #111827; /* Black borders as requested */
+  font-weight: 800;
+  font-size: 1.15rem;
+  cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+  margin-top: 12px;
+  box-shadow: 4px 4px 0px #111827; /* Sharp shadow to compliment black borders */
+  transition: all 0.2s ease;
+}
+
+.boxy-yellow-btn:hover {
+  background: #facc15;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #111827;
+}
+
+.boxy-yellow-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #111827;
+}
+
+/* Steps Section */
+.border-top-pt {
+  border-top: 1px solid var(--slate-light);
+  padding-top: 32px;
+}
+
+.mt-12 {
+  margin-top: 48px;
+}
+
+.mb-6 {
+  margin-bottom: 24px;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+}
+
+.step-row {
+  display: flex;
+  gap: 16px;
+  background: var(--white);
+  padding: 24px 20px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  align-items: flex-start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(4, 21, 47, 0.05);
+}
+
+.step-row:hover {
+  transform: translateX(8px);
+  box-shadow: 0 10px 20px rgba(4, 21, 47, 0.1);
+  border-color: var(--gold);
+}
+
+.step-icon-wrapper {
+  background: linear-gradient(135deg, var(--gold) 0%, #ffe482 100%);
+  padding: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+}
+
+.step-row .text-navy {
+  color: var(--navy-blue) !important;
+}
+
+.step-text h4 {
+  margin: 0 0 6px 0;
+  color: var(--navy-blue);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.step-text p {
+  margin: 0;
+  color: var(--slate);
+  font-size: 1rem;
+  line-height: 1.5;
+}
