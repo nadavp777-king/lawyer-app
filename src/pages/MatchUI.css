@@ -438,6 +438,19 @@
   width: 100%;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.concierge-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(10, 25, 47, 0.3);
+}
+
+.concierge-card:hover .concierge-btn {
+  background: #D4AF37;
+  color: #0A192F;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
 /* Subtle glow behind text in concierge card */
@@ -483,15 +496,11 @@
   border-radius: 50px;
   font-weight: 600;
   font-size: 1.05rem;
-  cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
-}
-
-.concierge-btn:hover {
-  background: #D4AF37;
-  color: #0A192F;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text-gold {

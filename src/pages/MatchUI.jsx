@@ -320,17 +320,20 @@ export default function MatchUI() {
         initial={{ y: 20, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true }}
+        onClick={() => navigate('/support')}
+        role="button"
+        tabIndex={0}
       >
         <div className="concierge-icon">
           <HelpCircle size={36} color="#D4AF37" />
         </div>
         <div className="concierge-text">
-          <h3 className="playfair-font text-gold">Private Concierge</h3>
+          <h3 className="playfair-font text-gold">Still didn't find the right lawyer?</h3>
           <p className="inter-font">Our matching experts are standing by. Let us help you navigate your legal needs and find the perfect attorney.</p>
         </div>
-        <button className="concierge-btn inter-font" onClick={() => navigate('/support')}>
+        <div className="concierge-btn inter-font">
           Get Guided Support
-        </button>
+        </div>
       </motion.div>
     </div>
   );
