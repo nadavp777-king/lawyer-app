@@ -1,123 +1,143 @@
-import { ScrollText, Clock, FileWarning, Zap, ShieldCheck, Scale, Search, ListChecks, MessageSquare, Gavel } from 'lucide-react';
+import { ScrollText, Clock, FileWarning, Zap, ShieldCheck, Scale, Search, ListChecks, MessageSquare, Gavel, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import './ProblemSolution.css';
 
 export default function ProblemSolution() {
   const navigate = useNavigate();
-  const oldWays = [
-    { icon: Clock, title: "Time Wasted", desc: "Weeks of asking friends and calling random offices." },
-    { icon: ScrollText, title: "Zero Transparency", desc: "No clear pricing or real reviews upfront." },
-    { icon: FileWarning, title: "High Risk", desc: "Choosing wrong can cost you your case." }
+  
+  const comparisons = [
+    {
+      problem: { icon: Clock, title: "Time Wasted", desc: "Weeks of asking friends and calling random offices." },
+      solution: { icon: Zap, title: "Instant Matches", desc: "Find the right lawyer in under a minute." }
+    },
+    {
+      problem: { icon: ScrollText, title: "Zero Transparency", desc: "No clear pricing or real reviews upfront." },
+      solution: { icon: ShieldCheck, title: "Verified Trust", desc: "Real reviews and transparent track records." }
+    },
+    {
+      problem: { icon: FileWarning, title: "High Risk", desc: "Choosing wrong can cost you your case." },
+      solution: { icon: Scale, title: "Fair Pricing", desc: "Know the estimated costs before you commit." }
+    }
   ];
 
-  const newWays = [
-    { icon: Zap, title: "Instant Matches", desc: "Find the right lawyer in under a minute." },
-    { icon: ShieldCheck, title: "Verified Trust", desc: "Real reviews and transparent track records." },
-    { icon: Scale, title: "Fair Pricing", desc: "Know the estimated costs before you commit." }
+  const steps = [
+    { icon: Search, title: "1. Tell Us What You Need", desc: "Filter by location, legal domain, and your specific problem." },
+    { icon: ListChecks, title: "2. Compare Transparently", desc: "Browse curated matches, check verified reviews, and understand costs upfront." },
+    { icon: MessageSquare, title: "3. Connect Instantly", desc: "Chat directly with top lawyers through our secure platform." },
+    { icon: Gavel, title: "4. Hire 'The One'", desc: "Select the perfect attorney and confidently resolve your case." }
   ];
+
+  const problemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      x: [0, -4, 4, -2, 2, 0],
+      transition: { duration: 0.7, ease: "easeOut" }
+    }
+  };
+
+  const solutionVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { type: "spring", stiffness: 80, damping: 20 } 
+    }
+  };
 
   return (
-    <div className="ps-container animate-fade-in-up">
+    <div className="ps-container luxury-minimalist">
       <motion.div 
         className="ps-header"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="section-title text-error">The Problem</h2>
-        <p className="text-slate font-medium">Why finding a lawyer feels broken.</p>
+        <h2 className="section-title playfair-title hidden-desktop">The Problem <span className="vs-text">vs</span> The Solution</h2>
       </motion.div>
 
-      <div className="cards-grid old-way-grid">
-        {oldWays.map((way, idx) => {
-          const Icon = way.icon;
-          return (
-            <motion.div 
-              key={idx} 
-              className="status-card error-card"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.15 }}
-            >
-              <div className="card-icon-wrapper error-icon-bg">
-                <Icon className="text-error" size={24} />
+      <div className="comparison-section">
+        <div className="comparison-headers hidden-mobile">
+          <h2 className="playfair-title text-muted-red">The Problem</h2>
+          <h2 className="playfair-title text-navy">The Solution</h2>
+        </div>
+
+        <div className="comparison-grid">
+          {comparisons.map((pair, idx) => {
+            const ProbIcon = pair.problem.icon;
+            const SolIcon = pair.solution.icon;
+            return (
+              <div key={idx} className="comparison-row">
+                {/* Mobile Header for Problem */}
+                <h3 className="mobile-only-header text-muted-red">The Problem</h3>
+                <motion.div 
+                  className="luxury-card problem-card glassmorphism"
+                  variants={problemVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <div className="golden-ratio-icon muted-bg">
+                    <ProbIcon className="icon-heavy" size={28} />
+                  </div>
+                  <div className="card-content">
+                    <h4>{pair.problem.title}</h4>
+                    <p>{pair.problem.desc}</p>
+                  </div>
+                </motion.div>
+
+                {/* Mobile Header for Solution */}
+                <h3 className="mobile-only-header text-navy mt-4">The Solution</h3>
+                <motion.div 
+                  className="luxury-card solution-card glassmorphism"
+                  variants={solutionVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-50px" }}
+                >
+                  <div className="golden-ratio-icon gold-bg">
+                    <SolIcon className="icon-light text-gold" size={28} />
+                  </div>
+                  <div className="card-content">
+                     <h4>{pair.solution.title}</h4>
+                     <p>{pair.solution.desc}</p>
+                  </div>
+                </motion.div>
               </div>
-              <div className="card-content">
-                <h4>{way.title}</h4>
-                <p>{way.desc}</p>
-              </div>
-            </motion.div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       <motion.div 
-        className="ps-header mt-8"
+        className="ps-header mt-16 mb-12"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
-        <h2 className="section-title text-gold">The Solution</h2>
-        <p className="text-slate font-medium">The Lawyer Finder way.</p>
+        <h2 className="section-title playfair-title text-navy">How It Works</h2>
+        <p className="text-slate font-inter">Four simple steps to find your match.</p>
       </motion.div>
 
-      <div className="cards-grid new-way-grid">
-        {newWays.map((way, idx) => {
-          const Icon = way.icon;
-          return (
-            <motion.div 
-              key={idx} 
-              className="status-card success-card"
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.15 }}
-            >
-              <div className="card-icon-wrapper success-icon-bg">
-                <Icon className="text-gold" size={24} />
-              </div>
-              <div className="card-content">
-                 <h4>{way.title}</h4>
-                 <p>{way.desc}</p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <motion.div 
-        className="ps-header mt-12 mb-6 border-top-pt"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <h2 className="section-title">How It Works</h2>
-        <p className="text-slate font-medium">Four simple steps to find your match.</p>
-      </motion.div>
-
-      <div className="steps-container">
-        {[
-          { icon: Search, title: "1. Tell Us What You Need", desc: "Filter by location, legal domain, and your specific problem." },
-          { icon: ListChecks, title: "2. Compare Transparently", desc: "Browse curated matches, check verified reviews, and understand costs upfront." },
-          { icon: MessageSquare, title: "3. Connect Instantly", desc: "Chat directly with top lawyers through our secure platform." },
-          { icon: Gavel, title: "4. Hire 'The One'", desc: "Select the perfect attorney and confidently resolve your case." }
-        ].map((step, idx) => {
+      <div className="steps-container-luxury">
+        <div className="progress-line"></div>
+        {steps.map((step, idx) => {
           const Icon = step.icon;
           return (
             <motion.div 
               key={idx} 
-              className="step-row"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.15 }}
+              className="step-row-luxury glassmorphism"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: idx * 0.15, type: "spring", stiffness: 100 }}
             >
-              <div className="step-icon-wrapper">
+              <div className="step-icon-wrapper-luxury">
                 <Icon size={24} className="text-navy" />
               </div>
-              <div className="step-text">
+              <div className="step-text-luxury">
                 <h4>{step.title}</h4>
                 <p>{step.desc}</p>
               </div>
@@ -127,15 +147,15 @@ export default function ProblemSolution() {
       </div>
 
       <motion.div 
-        className="middle-cta-section bottom-cta mt-8"
+        className="luxury-cta-section bottom-cta mt-16"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <h3 style={{ fontSize: '1.6rem', marginBottom: '8px' }}>Ready to experience the difference?</h3>
-        <p style={{ fontSize: '1.05rem', marginBottom: '16px', fontWeight: 500 }}>Jump straight into our smart matching system to find your ideal lawyer.</p>
-        <button className="middle-cta-btn boxy-yellow-btn" onClick={() => navigate('/find')}>
-          Start Finding Now <Zap size={22} color="currentColor" fill="currentColor" />
+        <h3 className="playfair-title">Ready to experience the difference?</h3>
+        <p className="font-inter">Jump straight into our smart matching system to find your ideal lawyer.</p>
+        <button className="golden-gradient-btn" onClick={() => navigate('/find')}>
+          Start Finding Now <ArrowRight size={20} />
         </button>
       </motion.div>
     </div>
