@@ -17,6 +17,8 @@
 .ps-container.luxury-minimalist {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: 32px;
   max-width: 1200px;
   margin: 0 auto;
@@ -68,7 +70,9 @@
 .comparison-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
+  width: 100%;
 }
 
 .comparison-headers {
@@ -77,6 +81,7 @@
   gap: 32px;
   text-align: center;
   margin-bottom: -10px;
+  width: 100%;
 }
 
 .comparison-headers h2 {
@@ -87,21 +92,26 @@
 .comparison-grid {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
+  width: 100%;
 }
 
 .comparison-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  width: 100%;
 }
 
 .luxury-card {
   padding: 32px;
   border-radius: 16px;
   display: flex;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
   transition: all 0.4s ease;
 }
 
@@ -212,6 +222,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 32px;
   max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px 0;
 }
@@ -466,7 +477,7 @@
   }
   
   .section-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .luxury-card {
