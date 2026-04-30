@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
 import ProblemSolution from './pages/ProblemSolution';
-import MatchUI from './pages/MatchUI';
+import Find from './pages/Find';
 import Support from './pages/Support';
 import MyProgress from './pages/MyProgress';
 import Onboarding from './pages/Onboarding';
@@ -153,7 +153,7 @@ function App() {
             {/* Protected Routes */}
             <Route path="/" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><Home /></PageWrapper></ProtectedRoute>} />
             <Route path="/why-us" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><ProblemSolution /></PageWrapper></ProtectedRoute>} />
-            <Route path="/find" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><MatchUI /></PageWrapper></ProtectedRoute>} />
+            <Route path="/find" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><Find /></PageWrapper></ProtectedRoute>} />
             <Route path="/progress" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><MyProgress /></PageWrapper></ProtectedRoute>} />
             <Route path="/support" element={<ProtectedRoute user={user} userData={userData}><PageWrapper><Support /></PageWrapper></ProtectedRoute>} />
             
