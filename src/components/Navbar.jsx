@@ -77,7 +77,6 @@ export default function Navbar() {
     }
   };
 
-  if (!user) return null; // Don't render anything if not logged in
 
   return (
     <>
