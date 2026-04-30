@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from './firebase/config';
+// Removed Firebase imports for local mode
 
 import BottomNav from './components/BottomNav';
 import Home from './pages/Home';
@@ -88,44 +86,36 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const checkAuth = () => {
+      const currentUser = localStorage.getItem('currentUser');
+      const onboardComplete = localStorage.getItem('onboardingComplete') === 'true';
+
       if (currentUser) {
-        setUser(currentUser);
-        try {
-          const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-          if (userDoc.exists()) {
-            setUserData(userDoc.data());
-          } else {
-            setUserData(null);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setUserData(null);
+        setUser(JSON.parse(currentUser));
+        if (onboardComplete) {
+          const prefs = localStorage.getItem('userPreferences');
+          setUserData(prefs ? { ...JSON.parse(prefs), onboardingComplete: true } : { onboardingComplete: true });
+        } else {
+          setUserData({ onboardingComplete: false });
         }
       } else {
         setUser(null);
         setUserData(null);
       }
       setLoading(false);
-    });
+    };
 
-    return () => unsubscribe();
+    checkAuth();
+    
+    // Listen for custom event to trigger re-renders on login/logout/onboarding
+    window.addEventListener('authChange', checkAuth);
+    return () => window.removeEventListener('authChange', checkAuth);
   }, []);
 
   const handleOnboardingComplete = async (formData) => {
-    if (user) {
-      try {
-        const userRef = doc(db, 'users', user.uid);
-        await setDoc(userRef, { 
-          profile: formData,
-          ...formData, // flat structure for backward compatibility
-          onboardingComplete: true 
-        }, { merge: true });
-        setUserData(prev => ({ ...prev, ...formData, onboardingComplete: true }));
-      } catch (error) {
-        console.error("Error updating onboarding status:", error);
-      }
-    }
+    localStorage.setItem('userPreferences', JSON.stringify(formData));
+    localStorage.setItem('onboardingComplete', 'true');
+    window.dispatchEvent(new Event('authChange'));
   };
 
   if (loading) {

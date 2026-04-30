@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/config';
 import { Scale } from 'lucide-react';
 import './Login.css';
 
@@ -32,29 +30,11 @@ export default function Login() {
       return;
     }
 
-    try {
-      if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
-      } else {
-        await createUserWithEmailAndPassword(auth, email, password);
-      }
-      // Note: App.js onAuthStateChanged handles the redirect automatically
-    } catch (error) {
-      // Clean up Firebase error messages
-      let cleanMsg = "An error occurred. Please try again.";
-      if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-        cleanMsg = "Invalid email or password.";
-      } else if (error.code === 'auth/email-already-in-use') {
-        cleanMsg = "An account with this email already exists.";
-      } else if (error.code === 'auth/weak-password') {
-        cleanMsg = "Password should be at least 6 characters.";
-      } else if (error.code === 'auth/invalid-email') {
-        cleanMsg = "Please enter a valid email address.";
-      }
-      
-      setErrorMsg(cleanMsg);
-      setLoading(false);
-    }
+    // Local Mode Bypass
+    setTimeout(() => {
+      localStorage.setItem('currentUser', JSON.stringify({ email }));
+      window.dispatchEvent(new Event('authChange'));
+    }, 500); // simulate network delay
   };
 
   const toggleMode = () => {

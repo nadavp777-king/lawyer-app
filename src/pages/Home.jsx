@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, ChevronRight, Scale, ShieldCheck, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { auth, db } from '../firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+// Removed Firebase imports for local mode
 import './Home.css';
 
 // Framer motion variants
@@ -36,37 +35,19 @@ export default function Home() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({ name: '', practice: '', location: '', discovery: '' });
 
-  // Clear local storage and fetch from Firebase
   useEffect(() => {
-    localStorage.clear();
-    
-    const fetchUserData = async () => {
-      // Small timeout to ensure auth resolves if they just loaded the app
-      const checkAuth = setInterval(async () => {
-        if (auth.currentUser) {
-          clearInterval(checkAuth);
-          try {
-            const userRef = doc(db, 'users', auth.currentUser.uid);
-            const docSnap = await getDoc(userRef);
-            if (docSnap.exists()) {
-              const data = docSnap.data();
-              // Support both the old flat structure and new 'profile' structure if it exists
-              const profileData = data.profile || data; 
-              setUserData({
-                name: profileData.name || '',
-                practice: profileData.practice || profileData.specialty || '',
-                location: profileData.location || '',
-                discovery: profileData.discovery || profileData.heardFrom || ''
-              });
-            }
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        }
-      }, 500);
-
-      // Give up after 5 seconds
-      setTimeout(() => clearInterval(checkAuth), 5000);
+    // In local mode, just read from localStorage
+    const fetchUserData = () => {
+      const prefs = localStorage.getItem('userPreferences');
+      if (prefs) {
+        const parsed = JSON.parse(prefs);
+        setUserData({
+          name: parsed.name || '',
+          practice: parsed.practice || parsed.specialty || '',
+          location: parsed.location || '',
+          discovery: parsed.discovery || parsed.heardFrom || ''
+        });
+      }
     };
 
     fetchUserData();

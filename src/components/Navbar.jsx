@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserCircle, LogOut, Settings, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { auth, db } from '../firebase/config';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { signOut, onAuthStateChanged } from 'firebase/auth';
+// Removed Firebase imports for local mode
 import './Navbar.css';
 
 const LOCATIONS = ["Tel Aviv", "Jerusalem", "Haifa", "Herzliya", "Rishon LeZion", "Ashdod"];
@@ -20,44 +18,33 @@ export default function Navbar() {
   const [editForm, setEditForm] = useState({ location: '', practice: '', discovery: '' });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userRef = doc(db, 'users', currentUser.uid);
-          const docSnap = await getDoc(userRef);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            const profileData = data.profile || data; 
-            setUserData({
-              name: profileData.name || '',
-              practice: profileData.practice || profileData.specialty || '',
-              location: profileData.location || '',
-              discovery: profileData.discovery || profileData.heardFrom || ''
-            });
-            setEditForm({
-              location: profileData.location || '',
-              practice: profileData.practice || profileData.specialty || '',
-              discovery: profileData.discovery || profileData.heardFrom || ''
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
+    // In local mode, just read from localStorage
+    const fetchUserData = () => {
+      const prefs = localStorage.getItem('userPreferences');
+      if (prefs) {
+        const parsed = JSON.parse(prefs);
+        setUserData({
+          name: parsed.name || '',
+          practice: parsed.practice || parsed.specialty || '',
+          location: parsed.location || '',
+          discovery: parsed.discovery || parsed.heardFrom || ''
+        });
+        setEditForm({
+          location: parsed.location || '',
+          practice: parsed.practice || parsed.specialty || '',
+          discovery: parsed.discovery || parsed.heardFrom || ''
+        });
       }
-    });
+    };
 
-    return () => unsubscribe();
+    fetchUserData();
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setDropdownOpen(false);
-      navigate('/login');
-    } catch (error) {
-      console.error("Logout error", error);
-    }
+    localStorage.clear();
+    setDropdownOpen(false);
+    window.dispatchEvent(new Event('authChange'));
+    navigate('/login');
   };
 
   const handleSaveProfile = async (e) => {
@@ -67,18 +54,11 @@ export default function Navbar() {
     setUserData(prev => ({ ...prev, ...editForm }));
     setModalOpen(false);
 
-    if (!user) return;
-
-    try {
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, {
-        location: editForm.location,
-        practice: editForm.practice,
-        discovery: editForm.discovery
-      });
-    } catch (error) {
-      console.error("Error updating profile", error);
-    }
+    // Save to localStorage
+    const prefs = localStorage.getItem('userPreferences');
+    const existing = prefs ? JSON.parse(prefs) : {};
+    const updated = { ...existing, ...editForm };
+    localStorage.setItem('userPreferences', JSON.stringify(updated));
   };
 
 
