@@ -60,6 +60,11 @@ export default function Navbar() {
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
+    
+    // Immediately update local UI and close modal so it feels instant
+    setUserData(prev => ({ ...prev, ...editForm }));
+    setModalOpen(false);
+
     if (!user) return;
 
     try {
@@ -69,9 +74,6 @@ export default function Navbar() {
         practice: editForm.practice,
         discovery: editForm.discovery
       });
-      
-      setUserData(prev => ({ ...prev, ...editForm }));
-      setModalOpen(false);
     } catch (error) {
       console.error("Error updating profile", error);
     }
