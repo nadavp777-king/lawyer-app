@@ -111,10 +111,10 @@
 .login-input {
   width: 100%;
   padding: 16px 20px;
-  background: rgba(0, 0, 0, 0.2);
+  background: #FFFFFF;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  color: #FFFFFF;
+  color: #0A192F;
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -123,13 +123,21 @@
 }
 
 .login-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: #64748B;
 }
 
 .login-input:focus {
   border-color: #D4AF37;
-  background: rgba(0, 0, 0, 0.3);
+  background: #FFFFFF;
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+}
+
+/* Helper Text */
+.helper-text {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 6px;
+  padding-left: 4px;
 }
 
 /* Error Message */

@@ -51,9 +51,8 @@ export default function Onboarding({ onComplete }) {
     if (currentStepIndex < STEPS.length - 1) {
       setCurrentStepIndex(currentStepIndex + 1);
     } else {
-      // Save data and complete
-      localStorage.setItem('userPreferences', JSON.stringify(formData));
-      onComplete();
+      // Pass data to App.jsx to handle saving to Firestore
+      onComplete(formData);
     }
   };
 

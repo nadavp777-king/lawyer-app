@@ -112,12 +112,16 @@ function App() {
     return () => unsubscribe();
   }, []);
 
-  const handleOnboardingComplete = async () => {
+  const handleOnboardingComplete = async (formData) => {
     if (user) {
       try {
         const userRef = doc(db, 'users', user.uid);
-        await setDoc(userRef, { onboardingComplete: true }, { merge: true });
-        setUserData(prev => ({ ...prev, onboardingComplete: true }));
+        await setDoc(userRef, { 
+          profile: formData,
+          ...formData, // flat structure for backward compatibility
+          onboardingComplete: true 
+        }, { merge: true });
+        setUserData(prev => ({ ...prev, ...formData, onboardingComplete: true }));
       } catch (error) {
         console.error("Error updating onboarding status:", error);
       }

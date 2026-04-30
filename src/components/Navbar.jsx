@@ -8,6 +8,8 @@ import { signOut, onAuthStateChanged } from 'firebase/auth';
 import './Navbar.css';
 
 const LOCATIONS = ["Tel Aviv", "Jerusalem", "Haifa", "Herzliya", "Rishon LeZion", "Ashdod"];
+const PRACTICES = ["Corporate & Tech", "Real Estate", "Family Law", "Criminal Defense", "Immigration", "Personal Injury"];
+const DISCOVERIES = ["Social Media (Instagram/TikTok)", "Search Engine (Google)", "Friend or Colleague", "Advertisement", "Other"];
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -154,11 +156,9 @@ export default function Navbar() {
                     onChange={(e) => setEditForm({...editForm, practice: e.target.value})}
                   >
                     <option value="">Select Specialty</option>
-                    <option value="Family Law">Family Law</option>
-                    <option value="Criminal Defense">Criminal Defense</option>
-                    <option value="Corporate Law">Corporate Law</option>
-                    <option value="Real Estate">Real Estate</option>
-                    <option value="Intellectual Property">Intellectual Property</option>
+                    {PRACTICES.map(prac => (
+                      <option key={prac} value={prac}>{prac}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -170,11 +170,9 @@ export default function Navbar() {
                     onChange={(e) => setEditForm({...editForm, discovery: e.target.value})}
                   >
                     <option value="">How did you hear about us?</option>
-                    <option value="Social Media">Social Media</option>
-                    <option value="Search Engine">Search Engine</option>
-                    <option value="Friend/Family">Friend/Family</option>
-                    <option value="Advertisement">Advertisement</option>
-                    <option value="Other">Other</option>
+                    {DISCOVERIES.map(disc => (
+                      <option key={disc} value={disc}>{disc}</option>
+                    ))}
                   </select>
                 </div>
                 

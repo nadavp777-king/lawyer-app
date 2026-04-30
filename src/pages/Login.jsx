@@ -17,6 +17,21 @@ export default function Login() {
     setErrorMsg('');
     setLoading(true);
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+
+    if (!emailRegex.test(email)) {
+      setErrorMsg("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+    
+    if (!passwordRegex.test(password)) {
+      setErrorMsg("Password must be at least 6 characters and include letters and numbers.");
+      setLoading(false);
+      return;
+    }
+
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
@@ -88,6 +103,7 @@ export default function Login() {
               required
               className="login-input"
             />
+            <span className="helper-text">Must be a valid email format</span>
           </div>
           <div className="input-group">
             <input 
@@ -98,6 +114,7 @@ export default function Login() {
               required
               className="login-input"
             />
+            <span className="helper-text">Password must be at least 6 characters and include letters and numbers.</span>
           </div>
 
           <AnimatePresence>
